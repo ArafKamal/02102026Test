@@ -79,5 +79,8 @@ int main(void) {
         printf("child process terminated, senza coso\n");
     }
 
+    // Con questo codice abbiamo fatto comunicare il padre con il figlio,
+    // quinid abbiamo fatto comunicare due processi in modo semplice
+
     return 0;
 }
