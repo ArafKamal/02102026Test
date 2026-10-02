@@ -26,13 +26,18 @@ int main(void) {
 
     } else if (pid == 0) {
 
+        // sleep(1);
+        // se aggiungo questo sleep sul figlio, non stampa il figlio, perchè?
+        // Dato che il processo padre finisce il programma totale, quindi finisce anche il figlio,
+        // per questo motivo non stampa il figlio
+
         printf("figlio\n");
         // Si usa exit zero, così che esce del processo e non
         // continua a fare le robe del padre;
         exit(0);
 
     } else {
-
+        sleep(1);
         // Da qui in poi c'è solo processo padre
         printf("padre\n");
     }
