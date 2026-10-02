@@ -65,5 +65,19 @@ int main(void) {
     // aspetta solo il primo che viene chiuso (ci sono wait che aspettano processo specifico)
     // per capirlo c'è il PID che viene ritornato dal figlio quando viene creato
 
+    // nuova roba
+
+    int codice;
+
+    pid_t child = wait(&codice);
+    printf("child process terminated, %d\n", codice);
+
+    if (WIFEXITED(codice)) {
+        int exit_code = WEXITSTATUS(codice);
+        printf("child process terminated, %d,  %d\n", codice, exit_code);
+    } else {
+        printf("child process terminated, senza coso\n");
+    }
+
     return 0;
 }
