@@ -16,16 +16,16 @@ int main(void) {
     // -1 se c'è errore
 
     // codice dove padre stampa padre, figlio stampa figlio.
-    pid_t pid = fork();
+    pid_t ritorno = fork();
 
-    if (pid < 0) {
+    if (ritorno < 0) {
 
         perror("fork");
         // printf("errore\n");
         exit(-1); // esce dal programma
         // return -1; // esce e ritorna all'inizio - in questo caso uguale
 
-    } else if (pid == 0) {
+    } else if (ritorno == 0) {
 
         sleep(1);
         // se aggiungo questo sleep sul figlio, non stampa il figlio, perchè?
@@ -33,7 +33,10 @@ int main(void) {
         // per questo motivo non stampa il figlio, non termina, è in background ma diventa un processo orfano,
         // non scrive dato che non ha il terminale del padre dove scrivere
 
-        printf("figlio\n");
+        // printf("figlio, pid: %d\n", ritorno);
+        printf("figlio pid è: %d\n", getpid());
+
+        printf("figlio, pid: %d\n", getppid()); // ritorna il PID del padre
         // Si usa exit zero, così che esce del processo e non
         // continua a fare le robe del padre;
         exit(0);
@@ -41,7 +44,8 @@ int main(void) {
     } else {
         // sleep(1);
         // Da qui in poi c'è solo processo padre
-        printf("padre\n");
+        printf("padre, pid: %d\n", ritorno);
+        printf("padre pid è: %d\n", getpid()); // getpid() per trovare il pid
     }
 
     // certe volte il figlio viene scritto prima del figlio,
@@ -56,6 +60,10 @@ int main(void) {
 
     // padre aspetti il figlio, come si fa (si usa wait)
     wait(NULL); // il padre aspetta che il figlio finisca il processo
+
+    // Se il padre usa wait e ha più processi, aspetta solo il primo che viene chiuso, se creo 8 figli,
+    // aspetta solo il primo che viene chiuso (ci sono wait che aspettano processo specifico)
+    // per capirlo c'è il PID che viene ritornato dal figlio quando viene creato
 
     return 0;
 }
